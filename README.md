@@ -114,8 +114,11 @@ Delete: I used DELTE method to delete a user with their information
 
 
 
+*Discussion of your experience with PHP/ NodeJS
+
 I had really hard time doing this homework because I’m really new about php and nodejs. 
  So I had to learn everything from lecture, website, youtube. And After this homework, I became much familiar with https process. And this homework really helped me to understand server-side and client-side. 
 
+*Plan for which language you will use in your Analytics project
 I feel like php is a good choice for my analytics project because for me I could deal with http request and response more easily than nodejs.
 
