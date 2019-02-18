@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="Description" content="issue tracker">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="theme-color" content="#317EFB"/>
+    <link rel="stylesheet" href="./test.css">
+    <title>Issue Lists</title>
+
+    <style>
+        .dd {
+            width: 5%;
+            padding: 12px 20px;
+            border: 8px solid #4CAF50;
+            border-radius: 4px;
+        }
+    </style>
+    
+</head></div>
+<body>
+    <h1>USERS</h1>
+    <h2>User List</h2>
+    
+    <table id="table">  
+        <tr>
+            <th>Admin?</th>
+            <th>User Name</th>
+            <th>LogIn</th>
+        </tr>
+    </table>
+    <br>
+    
+    <div class="T1" style="border: 2px solid #4CAF50; width: 100%; align-items: center; font-weight: bolder">
+        <p style="font-size: 30px; color: #4CAF50"><strong>Add, Edit, and Delete issues</strong></p>
+        <p style="color: #4CAF50">Click an user you want to change(delete or edit) on the table!, so you can see the information in the input boxes below!</p>
+        <label for="name">User Name</label><br>
+        <input type="text" name="name" id="name" placeholder="Enter Your Full Name" ><br>
+
+        <label for="LogIn">LogIn</label><br>
+        <input type="text" name="login" id="login" placeholder="Enter LogIn"><br>
+        
+        <label for="g">Admin?</label><br>       
+        <select name="cars" size="2" id="g" multiple>
+                <option value="yes" style="color: blue; font-weight: bold">YES</option>
+                <option value="no" style="color: red; font-weight: bold">NO</option>
+        </select>
+               
+        <p id="b" style="color: blue"></p>
+        <p id="r" style="color: red"></p>
+        <br>
+
+        <button style type="button" onclick="addRow(); return false;">Add</button>  
+        <button onclick="editRow()">Edit</button>  
+        <button onclick="deleteConfirm()">Delete</button>  
+        <button onclick="readRow()">Read</button>  
+    </div>
+    <br>
+    
+    <p id="result" style="font-size: 20pt"></p>
+
+    <script>
+
+        var rIndex, table = document.getElementById("table");
+        var id = 2;
+        var count = 0;
+        
+        //Add an issue
+        function addRow() {
+            var admin = document.getElementById("g").value;
+            var name = document.getElementById("name").value;
+            var login = document.getElementById("login").value;
+          
+            //add an issue in the table
+            var newRow = table.insertRow(table.length);
+            newRow.setAttribute("data-index-number", id);
+            
+            id = id +1;
+            var col1 = newRow.insertCell(0);
+            var col2 = newRow.insertCell(1);
+            var col3 = newRow.insertCell(2);
+
+            var open = document.createElement('P');
+            open.innerHTML = "YES";
+            open.setAttribute("style", "color:blue" );
+
+            var close = document.createElement('P');
+            close.innerHTML = "NO";
+            close.setAttribute("style", "color:red" );
+          
+            if(admin == "yes") {
+                col1.innerHTML = "";
+                col1.appendChild(open);
+            }else if(checkvalue =="no"){
+                col1.innerHTML = "";
+                col1.appendChild(close);
+            }
+           
+            var link = document.createElement('a');
+            link.setAttribute("href", "#");
+            link.innerHTML = "detail";
+            
+       
+            col2.innerHTML = name;
+            col3.innerHTML = login;
+            if (count == 0) {
+                id = 2;
+            }
+
+            //add an issue in json server.
+            const payload = {"user_name": name, "user_login": login, "admin": admin};
+            var ourRequest2 = new XMLHttpRequest();
+            var myData = JSON.stringify(payload);
+            ourRequest2.open('POST', 'http://localhost:4000/users/');
+            ourRequest2.setRequestHeader("Content-type", "application/json");   
+            ourRequest2.onreadystatechange = function () {
+                if (ourRequest2.readyState === 4 && ourRequest2.status === 200) {
+                    console.log("sucess!");
+                }
+            };
+            ourRequest2.send(myData);    
+            count = count + 1;
+            selectRow();         
+        }
+        function selectRow() {
+            for(var i =1; i < table.rows.length; i++) {
+                table.rows[i].onclick = function() {
+                    rIndex = this.rowIndex;      
+                    document.getElementById("name").value = this.cells[1].innerHTML;
+                    document.getElementById("login").value = this.cells[2].innerHTML;
+                   
+                };
+            }
+        }    
+    
+        selectRow();
+
+        //Edit an issue
+        function editRow() {
+
+            var admin = document.getElementById("g").value;
+            var name = document.getElementById("name").value;
+            var login = document.getElementById("login").value;
+           
+
+            //edit an issue in the table
+            var checkbox = document.createElement("INPUT");
+            checkbox.setAttribute("type", "checkbox");
+            
+            var yes = document.createElement('P');
+            yes.innerHTML = "YES";
+            yes.setAttribute("style", "color:blue" );
+
+            var no = document.createElement('P');
+            no.innerHTML = "NO";
+            no.setAttribute("style", "color:red" );
+
+
+            if(admin == "yes") {
+                table.rows[rIndex].cells[0].innerHTML = "";
+                table.rows[rIndex].cells[0].appendChild(yes);
+            }else if(admin =="no"){
+                table.rows[rIndex].cells[0].innerHTML = "";
+                table.rows[rIndex].cells[0].appendChild(no);
+            }
+            
+            table.rows[rIndex].cells[1].innerHTML = name;
+            table.rows[rIndex].cells[2].innerHTML = login;
+            
+
+            //Edit an issue in json server
+            var row = table.rows[rIndex];
+            var index = row.getAttribute("data-index-number")
+           
+            const payload = {"user_name": name, "user_login": login, "admin": admin};
+            var ourRequest2 = new XMLHttpRequest();
+            var myData = JSON.stringify(payload);
+            ourRequest2.open('PUT', 'http://localhost:4000/users/'+index);
+            ourRequest2.setRequestHeader("Content-type", "application/json");   
+            ourRequest2.onreadystatechange = function () {
+                if (ourRequest2.readyState === 4 && ourRequest2.status === 200) {
+                    var data = JSON.parse(ourRequest2.responseText);
+                    console.log("sucess!");
+                }
+            };
+            console.log(index);
+            ourRequest2.send(myData); 
+        }
+        
+        //Delete an issue
+        function deleteRow() {
+
+            var admin = document.getElementById("g").value;
+            var name = document.getElementById("name").value;
+            var login = document.getElementById("login").value;
+           
+          
+            //Delete an issue in json server
+            var row =table.rows[rIndex];
+            var index = row.getAttribute("data-index-number")
+            var ourRequest2 = new XMLHttpRequest();
+            ourRequest2.open('DELETE', 'http://localhost:4000/users/'+index);
+            ourRequest2.send();
+            console.log(index);
+
+            count = count -1;
+            //Delete an issue in the table
+            table.deleteRow(rIndex);
+        }
+        
+        //Read issue
+        function readRow() {
+            var admin = document.getElementById("g").value;
+            var name = document.getElementById("name").value;
+            var login = document.getElementById("login").value;
+            
+            
+            var row =table.rows[rIndex];
+            var index = row.getAttribute("data-index-number")
+            var ourRequest2 = new XMLHttpRequest();
+            ourRequest2.open('GET', 'http://localhost:4000/users/'+index);
+            ourRequest2.setRequestHeader("Content-type", "application/json")
+            ourRequest2.onreadystatechange = function () {
+                if (ourRequest2.readyState === 4 && ourRequest2.status === 200) {
+                    var data = JSON.parse(ourRequest2.responseText);
+                        var M = data.user_name;
+                        var T = data.user_login;
+                        var D = data.admin;
+                        console.log(M);
+                        console.log(T);
+                        var G = "Name: "+ M+ " Login: "+ T+ " admin: " + D;
+                        var result  = document.getElementById("result");
+                        result.innerHTML = G;
+
+
+                }
+            };
+            ourRequest2.send();
+    
+        }
+      
+        //Confirm message
+        function deleteConfirm() {
+            var x = confirm("Are you sure to delete this issue???");
+            if(x) {
+                return deleteRow();
+            }else {
+                return false;
+            }
+        }
+    </script>
+    <br>
+</body>
+</html>

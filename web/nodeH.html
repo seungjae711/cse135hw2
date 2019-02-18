@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <link rel="shortcut icon" type="image/x-icon" href="favicon.ico"/>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>nodeJs</title>
+    <style>
+            body {
+                background-color: lightblue;
+                width: 35em;
+                margin: 0 auto;
+                font-family: Tahoma, Verdana, Arial, sans-serif;
+            }
+    </style>
+
+<!--
+<div><img src="sj.jpg" alt="heading" style = "width:90%; height:330pt"/></div>
+-->
+</head>
+<body>
+    <hr>
+    <!--1 Hello world-->
+    <p style="font-size: 20px">1. Hello World</p>
+    <form action="/hello" method="get">
+        <input type="submit" name="color" value="Hello color page!">
+    </form>
+    <hr>
+
+
+    <!--2 Hello Data Type-->
+    <p style="font-size: 20px">2. Hello Data Types</p>
+    <p>Select "JOSN" , "XML" or Nothing</p>
+    <form action="hellodata" method="get">
+        <select name="response" id="resonse">
+            <option value="JSON">JSON</option>
+            <option value="XML">XML</option>
+	    <option value="">Nothing</option>	
+        </select><br>
+	<input type="submit" name="submit" value ="submit">
+    </form>
+    <hr>
+
+
+
+    <!--3. Environment Variable Echo-->
+
+    <p style="font-size: 20px">3. Environment Variable</p>
+    <form action="/header" method="get">
+        <input type="submit" name="submit" value="submit">
+    </form>
+
+    <!--4. Form Collection-->
+
+    <p style="font-size: 20px"> 4. Form Collection-javascript</p>
+    <form id="myForm" action="/food" method="POST">
+        <label for="name">Your full name:</label>
+        <input type="text" name="name" id="name"><br>
+        <label for="color">Selec your favorite color:</label>
+        <select name="color" id="color" >
+            <option value="red" >Red</option>
+            <option value="yellow">Yellow</option>
+            <option value="blue">Blue</option>
+            <option value="green">Green</option>
+        </select><br>
+        <label for="method">Select method to send data</label>
+        <select name="method" id="method" onchange="changeM()">
+            <option value="POST">POST</option>
+            <option value="GET">GET</option>
+        </select><br>
+
+        <input type="submit" name="submit" value="submit">
+    </form>
+
+
+    <hr>
+
+    <script>
+        function check() {
+            var x = confirm("Are you sure to delete this issue???");
+            if(x) {
+                return deleteRow();
+            }else {                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 
+                return false;
+            }
+        }
+
+        function changeM() {
+            var M = document.getElementById("method").value;
+            if (M == "POST") {
+                
+                document.getElementById("myForm").method ="POST";
+            }else if(M == "GET"){
+                
+                document.getElementById("myForm").method ="GET";
+            }
+        }
+    </script>
+
+</body>
+</html>
+
+
+
