@@ -60,6 +60,7 @@ I created a new JSON file with name db.json. This file contains the data which s
 
 CRUD
 Create: I used POST method to add a user with their information
+        
         const payload = {"user_name": name, "user_login": login, "admin": admin};
             var ourRequest2 = new XMLHttpRequest();
             var myData = JSON.stringify(payload);
@@ -91,6 +92,7 @@ Read: I used GET method to read a user with their information
                         result.innerHTML = G;
 
 Update: I used PUT method to edit a user with their information
+            
             const payload = {"user_name": name, "user_login": login, "admin": admin};
             var ourRequest2 = new XMLHttpRequest();
             var myData = JSON.stringify(payload);
@@ -104,6 +106,7 @@ Update: I used PUT method to edit a user with their information
             };
 
 Delete: I used DELTE method to delete a user with their information
+            
             var row =table.rows[rIndex];
             var index = row.getAttribute("data-index-number")
             var ourRequest2 = new XMLHttpRequest();
