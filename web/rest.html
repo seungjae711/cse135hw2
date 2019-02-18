@@ -64,7 +64,7 @@
 
         var rIndex, table = document.getElementById("table");
         var id = 2;
-        var count = 0;
+
         
         //Add an issue
         function addRow() {
@@ -92,7 +92,7 @@
             if(admin == "yes") {
                 col1.innerHTML = "";
                 col1.appendChild(open);
-            }else if(checkvalue =="no"){
+            }else if(admin =="no"){
                 col1.innerHTML = "";
                 col1.appendChild(close);
             }
@@ -104,9 +104,7 @@
        
             col2.innerHTML = name;
             col3.innerHTML = login;
-            if (count == 0) {
-                id = 2;
-            }
+      
 
             //add an issue in json server.
             const payload = {"user_name": name, "user_login": login, "admin": admin};
@@ -184,7 +182,7 @@
                     console.log("sucess!");
                 }
             };
-            console.log(index);
+    
             ourRequest2.send(myData); 
         }
         
@@ -202,9 +200,9 @@
             var ourRequest2 = new XMLHttpRequest();
             ourRequest2.open('DELETE', 'http://localhost:4000/users/'+index);
             ourRequest2.send();
-            console.log(index);
+      
 
-            count = count -1;
+
             //Delete an issue in the table
             table.deleteRow(rIndex);
         }
